@@ -1,0 +1,318 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@400;600;800&display=swap');
+
+/* --- Reset & Base --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #87CEEB; /* Sky blue fallback */
+    font-family: 'Inter', sans-serif;
+    user-select: none;
+}
+
+/* --- Crosshair --- */
+#crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 100;
+}
+
+#crosshair::before, #crosshair::after {
+    content: '';
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+#crosshair::before {
+    top: 9px; left: 0;
+    width: 20px; height: 2px;
+}
+
+#crosshair::after {
+    top: 0; left: 9px;
+    width: 2px; height: 20px;
+}
+
+/* --- UI Overlay --- */
+#ui-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* --- Inventory Info (Top Right) --- */
+#inventory-info {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: right;
+}
+
+#inventory-info span {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
+    color: #f8fafc;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+}
+
+#antigravity-label {
+    color: #fbbf24 !important;
+}
+
+/* --- Hotbar (Bottom Center) --- */
+#hotbar {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.hotbar-slot {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    position: relative;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hotbar-slot.active {
+    border-color: #38bdf8;
+    background: rgba(56, 189, 248, 0.15);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.4), inset 0 0 10px rgba(56, 189, 248, 0.2);
+    transform: translateY(-5px);
+}
+
+.hotbar-slot img {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: 4px;
+    image-rendering: pixelated;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.hotbar-slot .slot-number {
+    position: absolute;
+    top: 4px; left: 6px;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 1px 1px 0 #000;
+}
+
+.hotbar-slot .item-count {
+    position: absolute;
+    bottom: 2px; right: 4px;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 1px 1px 0 #000;
+}
+
+/* --- Pause / Start Menu --- */
+#blocker {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(15px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    color: #fff;
+    transition: opacity 0.3s ease;
+}
+
+#menu {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 60px 80px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.02);
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+#menu:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.02);
+}
+
+#menu h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 4px 10px rgba(56, 189, 248, 0.3));
+}
+
+#menu p {
+    font-size: 1.4rem;
+    color: #cbd5e1;
+    margin-bottom: 40px;
+    font-weight: 600;
+}
+
+.instructions {
+    text-align: left;
+    font-size: 1rem;
+    color: #94a3b8;
+    line-height: 1.8;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 24px 32px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.instructions b {
+    color: #f8fafc;
+    margin-right: 8px;
+}
+
+.credits {
+    margin-top: 30px;
+    font-size: 0.85rem;
+    color: #64748b;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* --- Inventory Screen --- */
+#inventory-screen {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 150;
+    transition: opacity 0.2s ease;
+}
+
+#inventory-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.inventory-modal {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 40px;
+    width: 600px;
+    max-width: 90vw;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    color: #f8fafc;
+    text-align: center;
+}
+
+.inventory-modal h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #38bdf8;
+}
+
+.inventory-modal p {
+    color: #94a3b8;
+    margin-bottom: 30px;
+}
+
+#inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 15px;
+    background: #0f172a;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #1e293b;
+    min-height: 200px;
+}
+
+.inventory-item {
+    width: 100%;
+    aspect-ratio: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory-item:hover {
+    background: rgba(56, 189, 248, 0.1);
+    border-color: #38bdf8;
+    transform: scale(1.05);
+}
+
+.inventory-item img {
+    width: 70%;
+    height: 70%;
+    object-fit: cover;
+    border-radius: 4px;
+    image-rendering: pixelated;
+}
+
+.inventory-item .item-count {
+    position: absolute;
+    bottom: 2px; right: 4px;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    color: #fff;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.hint {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #64748b;
+}

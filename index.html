@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity-Craft</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Crosshair -->
+    <div id="crosshair"></div>
+
+    <!-- UI Overlay -->
+    <div id="ui-layer">
+        <!-- Hotbar (Slots 1-6) -->
+        <div id="hotbar">
+            <!-- Slots will be injected via JS -->
+        </div>
+        
+        <!-- Survival Inventory Info -->
+        <div id="inventory-info">
+            <span id="game-mode-label">Mode: SURVIVAL</span>
+            <span id="antigravity-label">Antigravity: OFF (G)</span>
+        </div>
+    </div>
+
+    <!-- Pause / Start Menu -->
+    <div id="blocker">
+        <div id="menu">
+            <h1>Antigravity-Craft</h1>
+            <p>Click to Play</p>
+            <div class="instructions">
+                <b>W, A, S, D</b> - Move<br>
+                <b>SPACE</b> - Jump<br>
+                <b>LEFT CLICK</b> - Mine Block<br>
+                <b>RIGHT CLICK</b> - Place Block<br>
+                <b>1-6 or SCROLL</b> - Select Block<br>
+                <b>E</b> - Open Inventory<br>
+                <b>M</b> - Toggle Game Mode<br>
+                <b>G</b> - Toggle Antigravity (Creative only)<br>
+            </div>
+            <div class="credits">Built with Three.js</div>
+        </div>
+    </div>
+
+    <!-- Inventory Screen (Hidden by default) -->
+    <div id="inventory-screen" class="hidden">
+        <div class="inventory-modal">
+            <h2>Inventory</h2>
+            <p>Select an item to equip it to your hotbar.</p>
+            <div id="inventory-grid">
+                <!-- Grid items injected via JS -->
+            </div>
+            <p class="hint">Press 'E' to close</p>
+        </div>
+    </div>
+
+    <!-- Three.js and Third-Party Libs (SimplexNoise) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
