@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity-Craft</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Crosshair -->
+    <div id="crosshair"></div>
+
+    <!-- UI Overlay -->
+    <div id="ui-layer">
+        <!-- Hotbar (Slots 1-6) -->
+        <div id="hotbar">
+            <!-- Slots will be injected via JS -->
+        </div>
+        
+        <!-- Survival Inventory Info -->
+        <div id="inventory-info">
+            <span id="game-mode-label">Mode: SURVIVAL</span>
+            <span id="antigravity-label">Antigravity: OFF (G)</span>
+        </div>
+    </div>
+
+    <!-- Pause / Start Menu Blocker -->
+    <div id="blocker">
+        <div id="menu-container">
+            <!-- Left Side: Main Menu -->
+            <div id="menu-main">
+                <h1>Antigravity-Craft</h1>
+                <p class="play-hint">Click here to play</p>
+                <div class="instructions">
+                    <b>W, A, S, D</b> - Move<br>
+                    <b>SPACE</b> - Jump / Fly Up<br>
+                    <b>SHIFT</b> - Fly Down / Submerge<br>
+                    <b>LEFT CLICK</b> - Mine Block<br>
+                    <b>RIGHT CLICK</b> - Place Block<br>
+                    <b>1-6 or SCROLL</b> - Select Slot<br>
+                    <b>E</b> - Toggle Inventory<br>
+                    <b>M</b> - Toggle Game Mode<br>
+                    <b>G</b> - Toggle Antigravity<br>
+                </div>
+                <div class="credits">Built with Three.js</div>
+            </div>
+
+            <!-- Right Side: Cozy Settings Menu -->
+            <div id="menu-settings">
+                <h2>Settings</h2>
+                
+                <div class="setting-row">
+                    <label for="setting-render-distance">Render Distance: <span id="val-render-distance">4</span> Chunks</label>
+                    <input type="range" id="setting-render-distance" min="2" max="10" value="4">
+                </div>
+
+                <div class="setting-row">
+                    <label for="setting-fov">Field of View (FOV): <span id="val-fov">75</span>°</label>
+                    <input type="range" id="setting-fov" min="50" max="110" value="75">
+                </div>
+
+                <div class="setting-row">
+                    <label for="setting-sensitivity">Sensitivity: <span id="val-sensitivity">1.0</span>x</label>
+                    <input type="range" id="setting-sensitivity" min="0.2" max="3.0" step="0.1" value="1.0">
+                </div>
+
+                <div class="setting-row">
+                    <label for="setting-weather">Weather</label>
+                    <div class="select-wrapper">
+                        <select id="setting-weather">
+                            <option value="clear">Clear Sky</option>
+                            <option value="rain">Rainy</option>
+                            <option value="snow">Snowy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="btn-reset-world" class="mc-button">Reset World</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventory Screen (Hidden by default) -->
+    <div id="inventory-screen" class="hidden">
+        <div class="inventory-modal">
+            <h2>Inventory</h2>
+            <p>Select an item to equip it to your active hotbar slot.</p>
+            <div id="inventory-grid">
+                <!-- Grid items injected via JS -->
+            </div>
+            <p class="hint">Press 'E' to resume</p>
+        </div>
+    </div>
+
+    <!-- Three.js and Third-Party Libs (SimplexNoise) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

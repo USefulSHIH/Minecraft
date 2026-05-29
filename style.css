@@ -1,0 +1,460 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@400;600;700&display=swap');
+
+/* --- Reset & Base --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #87CEEB;
+    font-family: 'Inter', sans-serif;
+    user-select: none;
+}
+
+/* --- Crosshair --- */
+#crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 100;
+}
+
+#crosshair::before, #crosshair::after {
+    content: '';
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+#crosshair::before {
+    top: 7px; left: 0;
+    width: 16px; height: 2px;
+}
+
+#crosshair::after {
+    top: 0; left: 7px;
+    width: 2px; height: 16px;
+}
+
+/* --- UI Overlay --- */
+#ui-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* --- Inventory Info (Top Right) --- */
+#inventory-info {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: right;
+}
+
+#inventory-info span {
+    background: rgba(30, 27, 24, 0.85); /* Dark earthy stone background */
+    border: 2px solid #5a4b3d; /* Wood-like border */
+    color: #f1edd9;
+    padding: 6px 12px;
+    font-family: 'VT323', monospace;
+    font-size: 1.15rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+}
+
+#antigravity-label {
+    color: #ffd043 !important;
+}
+
+/* --- Hotbar (Bottom Center) --- */
+#hotbar {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 4px;
+    padding: 6px;
+    background: rgba(30, 27, 24, 0.9);
+    border: 4px solid #5a4b3d;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.hotbar-slot {
+    width: 52px;
+    height: 52px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid #332d27;
+    position: relative;
+    transition: transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hotbar-slot.active {
+    border-color: #ffd043;
+    background: rgba(255, 208, 67, 0.15);
+    transform: scale(1.08);
+    box-shadow: 0 0 12px rgba(255, 208, 67, 0.3);
+}
+
+.hotbar-slot img {
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+    image-rendering: pixelated;
+}
+
+.hotbar-slot .slot-number {
+    position: absolute;
+    top: 2px; left: 4px;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    color: #a39281;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.hotbar-slot .item-count {
+    position: absolute;
+    bottom: 0px; right: 4px;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 1px 1px 0 #000;
+}
+
+/* --- Pause / Start Menu Blocker --- */
+#blocker {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(20, 18, 16, 0.75); /* Dark screen overlay */
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    color: #fff;
+}
+
+#menu-container {
+    display: flex;
+    background: #2b2622; /* Cozy dark dirt/stone background */
+    border: 4px solid #5a4b3d; /* Oak wood border */
+    padding: 30px;
+    border-radius: 4px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    max-width: 900px;
+    width: 95vw;
+    gap: 30px;
+    color: #f1edd9;
+}
+
+#menu-main {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#menu-main h1 {
+    font-family: 'VT323', monospace;
+    font-size: 3.5rem;
+    letter-spacing: 1px;
+    color: #ffd043;
+    text-shadow: 3px 3px 0 #3c2f00;
+    margin-bottom: 5px;
+}
+
+.play-hint {
+    font-family: 'VT323', monospace;
+    font-size: 1.8rem;
+    color: #a0d854;
+    text-shadow: 2px 2px 0 #284411;
+    margin-bottom: 20px;
+    cursor: pointer;
+    animation: flash 1.5s infinite alternate;
+}
+
+@keyframes flash {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+.instructions {
+    text-align: left;
+    font-size: 0.95rem;
+    color: #d1c8bd;
+    line-height: 1.6;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 16px 20px;
+    border: 2px solid #3c3229;
+    border-radius: 2px;
+}
+
+.instructions b {
+    color: #ffd043;
+    margin-right: 6px;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+}
+
+.credits {
+    margin-top: 20px;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    color: #8c7a6b;
+    letter-spacing: 1px;
+}
+
+/* --- Settings Menu --- */
+#menu-settings {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-left: 2px solid #3c3229;
+    padding-left: 30px;
+}
+
+#menu-settings h2 {
+    font-family: 'VT323', monospace;
+    font-size: 2.2rem;
+    color: #ffd043;
+    text-shadow: 2px 2px 0 #3c2f00;
+    margin-bottom: 10px;
+}
+
+.setting-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.setting-row label {
+    font-family: 'VT323', monospace;
+    font-size: 1.25rem;
+    color: #e5dac9;
+}
+
+.setting-row label span {
+    color: #ffd043;
+}
+
+/* Custom Minecraft-like Slider */
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #141210;
+    border: 2px solid #3c3229;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 20px;
+    background: #867566;
+    border: 2px solid #f1edd9;
+    border-top-color: #ffffff;
+    border-bottom-color: #4a3e35;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: #9d8c7d;
+}
+
+/* Custom Select Dropdown */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+select {
+    width: 100%;
+    padding: 8px 12px;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    background: #141210;
+    border: 2px solid #3c3229;
+    color: #f1edd9;
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.select-wrapper::after {
+    content: '▼';
+    font-size: 0.7rem;
+    color: #ffd043;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+select:focus {
+    border-color: #ffd043;
+}
+
+/* Cozy Minecraft button */
+.mc-button {
+    margin-top: 10px;
+    padding: 10px 16px;
+    font-family: 'VT323', monospace;
+    font-size: 1.3rem;
+    background: #4a6f28; /* Green button */
+    border: 2px solid #6b9e38;
+    border-bottom-color: #2b4512;
+    border-right-color: #2b4512;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+    text-shadow: 1px 1px 0 #1b2f0a;
+    transition: background 0.1s, transform 0.05s;
+}
+
+.mc-button:hover {
+    background: #568230;
+    border-color: #79b042;
+}
+
+.mc-button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.3);
+}
+
+/* --- Inventory Screen --- */
+#inventory-screen {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(20, 18, 16, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 150;
+    transition: opacity 0.2s ease;
+}
+
+#inventory-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.inventory-modal {
+    background: #2b2622;
+    border: 4px solid #5a4b3d;
+    padding: 30px;
+    width: 520px;
+    max-width: 95vw;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    color: #f1edd9;
+    text-align: center;
+}
+
+.inventory-modal h2 {
+    font-family: 'VT323', monospace;
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+    color: #ffd043;
+    text-shadow: 2px 2px 0 #3c2f00;
+}
+
+.inventory-modal p {
+    color: #a39281;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+#inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 15px;
+    border: 2px solid #3c3229;
+    min-height: 160px;
+}
+
+.inventory-item {
+    width: 100%;
+    aspect-ratio: 1;
+    background: rgba(30, 27, 24, 0.8);
+    border: 2px solid #5a4b3d;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory-item:hover {
+    border-color: #ffd043;
+    background: rgba(255, 208, 67, 0.1);
+    transform: scale(1.05);
+}
+
+.inventory-item img {
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+    image-rendering: pixelated;
+}
+
+.inventory-item .item-count {
+    position: absolute;
+    bottom: 0px; right: 4px;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    color: #fff;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.hint {
+    margin-top: 15px;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    color: #8c7a6b;
+}
+
+/* Adjust for small screens */
+@media(max-width: 768px) {
+    #menu-container {
+        flex-direction: column;
+        max-height: 95vh;
+        overflow-y: auto;
+    }
+    #menu-settings {
+        border-left: none;
+        border-top: 2px solid #3c3229;
+        padding-left: 0;
+        padding-top: 20px;
+    }
+}
